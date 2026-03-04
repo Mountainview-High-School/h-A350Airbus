@@ -1,87 +1,61 @@
+-- SQLite
+-- cleanup old tables
 
-/*
-# ER Diagram
+PRAGMA foreign_keys = ON;
 
-
-This is my diagram for my competitor app to KAMAR
-
-
-```plantuml
-
-
-@startuml
-' config
-hide circle
-skinparam linetype ortho
+drop table if exists Student;
+drop table if exists Class;
+drop table if exists StudentClass;
+drop table if exists Room;
+drop table if exists Teacher;
+drop table if exists Building;
 
 
-left to right direction
-
-*/
-CREATE TABLE Student (
-<b>student_id: INTEGER</b>
---
-first_name: TEXT
-last_name: TEXT
-date_of_birth: DATE
-
-
-  }
-
-
-
-CREATE TABLE StudentClass (
-student_id: INTEGER PRIMARY KEY AUTOINCREMENT
-class_id: INTEGER
-``
+CREATE TABLE Student 
+( 
+student_id INTEGER CONSTRAINT PK_Student PRIMARY KEY AUTOINCREMENT,
+first_name TEXT NOT NULL,
+last_name TEXT NOT NULL,
+date_of_birth DATE NOT NULL
 );
-
-CREATE TABLE Class (
-class_id: INTEGER PRIMARY KEY AUTOINCREMENT
-``
-class_name: TEXT NOT NULL
-level: INTERGER
-room_id: INTEGER
-teacher_id: INTERGER 
-);
-
-
-*/
 
 CREATE TABLE Teacher (
-teacher_id: INTEGER PRIMARY KEY AUTOINCREMENT
-``
-teacher_name: TEXT NOT NULL
+teacher_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+teacher_name TEXT NOT NULL
 );
-
-
-CREATE TABLE student (
-student_id: INTERGER PRIMARY KEY AUTOINCREMENT
-``
-student_name: TEXT NOT NULL
-);
-
-CREATE TABLE Room (
-room_id: INTEGER PRIMARY KEY AUTOINCREMENT
-``
-building_id: TEXT NOT NULL
-);
-
 
 CREATE TABLE Building (
-building_id: INTEGER PRIMARY KEY AUTOINCREMENT
-``
-building_name: TEXT NOT NULL
+building_id INTEGER PRIMARY KEY AUTOINCREMENT,
+building_name TEXT NOT NULL
 );
 
 
-/*
+CREATE TABLE Room (
+room_id INTEGER PRIMARY KEY, 
+building_id INTEGER NOT NULL,
+FOREIGN KEY (building_id) REFERENCES Building (building_id)
+);
 
-Student ||--{ StudentClass
-Class ||--{ StudentClass
-Class }--|| Teacher
-Class }--|| Room
-Room }--|| Building
-@enduml
-```
-*/
+
+CREATE TABLE Class 
+(
+class_id INTEGER CONSTRAINT PK_Class PRIMARY KEY AUTOINCREMENT,  
+class_name TEXT NOT NULL,
+level INTEGER NULL,
+room_id INTEGER NULL, 
+teacher_id INTEGER NULL ,
+FOREIGN KEY (room_id) REFERENCES Room (room_id),
+FOREIGN KEY (teacher_id) REFERENCES Teacher (teacher_id)
+);
+
+
+CREATE TABLE StudentClass 
+(
+student_id INTEGER NOT NULL, 
+class_id INTEGER NOT NULL,
+CONSTRAINT PK_StudentClass PRIMARY KEY (student_id, class_id),
+FOREIGN KEY (student_id) REFERENCES Student (student_id),
+FOREIGN KEY (class_id) REFERENCES Class (class_id)
+);
+
+

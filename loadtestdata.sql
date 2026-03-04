@@ -63,7 +63,6 @@ WHERE class_id in (SELECT class_id from Class where room_id = 80); -- These are 
 
 SELECT first_name, last_name, date_of_birth, class_name, level, room.room_id, building_name, teacher_name 
 FROM Student 
-ORDER BY date_of_birth DESC
     INNER JOIN StudentClass 
         ON Student.student_id = StudentClass.student_id 
     INNER JOIN Class 
@@ -75,7 +74,3 @@ ORDER BY date_of_birth DESC
     LEFT JOIN Building 
         ON Room.building_id = Building.building_id
 ORDER BY last_name, first_name;
-
-UPDATE Building
-SET Hiwi = COLUMN2
-WHERE CONDITION;
