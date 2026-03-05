@@ -17,7 +17,3 @@ INSERT INTO Class (class_name, level, teacher_id, room_id)
 VALUES
 ("English", "2", "4", "24"); 
 SELECT * FROM  Class;
-
-UPDATE Student 
-SET '4'
-WHERE condition; 
